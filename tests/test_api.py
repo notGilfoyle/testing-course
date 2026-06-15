@@ -43,3 +43,15 @@ def test_me_endpoint_with_valid_token_returns_user():
     # Assert — it should return the user's info
     assert response.status_code == 200
     assert response.json() == {"username": "alice"}
+
+def test_me_endpoint_with_invalid_token_returns_401():
+    # Act — call /me with a token that isn't a real JWT
+    response = client.get("/me", headers={"Authorization": "Bearer not-a-real-token"})
+
+    # Assert — rejected
+    assert response.status_code == 401
+
+def test_me_endpoint_with_no_token_returns_401():
+    response = client.get("/me")     # no headers
+    assert response.status_code == 401
+
