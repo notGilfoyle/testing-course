@@ -1,0 +1,22 @@
+name: Tests
+
+on: [push, pull_request]          # run on every push and every PR
+
+jobs:
+  test:
+    runs-on: ubuntu-latest        # a fresh Linux VM
+    steps:
+      - uses: actions/checkout@v4          # 1. grab your code
+
+      - uses: actions/setup-python@v5      # 2. install Python
+        with:
+          python-version: "3.13"           # see note below about 3.14
+
+      - name: Install dependencies         # 3. install your deps + test tools
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest-cov
+
+      - name: Run tests                    # 4. the actual test run
+        run: pytest --cov=app --cov-report=term-missing
