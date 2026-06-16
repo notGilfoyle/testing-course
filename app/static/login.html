@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Login — Testing Course</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 360px; margin: 60px auto; }
+    input, button { display: block; width: 100%; padding: 10px; margin: 8px 0; font-size: 16px; }
+    #result { margin-top: 16px; font-weight: 600; min-height: 24px; }
+    .ok { color: #15803d; }
+    .err { color: #b91c1c; }
+  </style>
+</head>
+<body>
+  <h1>Sign in</h1>
+  <input id="username" data-testid="username" placeholder="Username" />
+  <input id="password" data-testid="password" type="password" placeholder="Password" />
+  <button id="login" data-testid="login-button">Log in</button>
+  <div id="result" data-testid="result"></div>
+
+  <script>
+    document.getElementById("login").addEventListener("click", async () => {
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+      const result = document.getElementById("result");
+      result.textContent = "";
+      result.className = "";
+      try {
+        const resp = await fetch("/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username, password }),
+        });
+        if (resp.ok) {
+          result.textContent = "Welcome, " + username + "!";
+          result.className = "ok";
+        } else {
+          result.textContent = "Invalid username or password";
+          result.className = "err";
+        }
+      } catch (e) {
+        result.textContent = "Something went wrong";
+        result.className = "err";
+      }
+    });
+  </script>
+</body>
+</html>

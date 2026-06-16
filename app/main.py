@@ -10,6 +10,8 @@ and JSON payloads.
 from fastapi import FastAPI, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from pydantic import BaseModel
+from fastapi.responses import FileResponse
+from pathlib import Path
 
 from app.security import decode_access_token
 from app.service import (
@@ -68,3 +70,8 @@ def me(token: str = Depends(oauth2_scheme)):
             detail="Invalid or expired token",
         )
     return UserResponse(username=username)
+
+@app.get("/")
+def serve_login_page():
+    """Serve the login page so it's same-origin with the API (avoids CORS)."""
+    return FileResponse(Path(__file__).parent / "static" / "login.html")
