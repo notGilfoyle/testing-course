@@ -1,3 +1,5 @@
+[![Tests](https://github.com/notGilfoyle/testing-course/actions/workflows/tests.yml/badge.svg)](https://github.com/notGilfoyle/testing-course/actions/workflows/tests.yml)
+
 # Testing Course — Practice Project
 
 A small FastAPI auth service built to learn software testing from scratch.
