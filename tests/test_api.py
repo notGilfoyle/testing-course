@@ -55,3 +55,8 @@ def test_me_endpoint_with_no_token_returns_401():
     response = client.get("/me")     # no headers
     assert response.status_code == 401
 
+def test_register_duplicate_username_returns_400():
+    client.post("/register", json={"username": "alice", "password": "pw"})
+    # second registration of same username
+    response = client.post("/register", json={"username": "alice", "password": "other"})
+    assert response.status_code == 400
