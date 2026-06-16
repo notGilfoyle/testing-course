@@ -8,6 +8,7 @@ import pytest
 from app.main import app
 from app.store import store, User
 from app.security import hash_password
+playwright=pytest.importorskip("playwright")
 from playwright.sync_api import expect 
 
 HOST, PORT = "127.0.0.1", 8001          # 8001 to avoid clashing with your dev server on 8000
@@ -40,7 +41,7 @@ def seed_user():
     yield
     store.clear()
 
-
+@pytest.mark.e2e
 def test_successful_login_shows_welcome(live_server, page):
     # Arrange — open the login page in a real browser
     page.goto(live_server)

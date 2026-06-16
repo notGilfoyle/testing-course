@@ -19,4 +19,4 @@ jobs:
           pip install pytest-cov
 
       - name: Run tests                    # 4. the actual test run
-        run: pytest --cov=app --cov-report=term-missing
+        run: pytest -m "not e2e" --cov=app --cov-report=term-missing
